@@ -15,4 +15,6 @@ export const config = {
   // Remove trailing slashes so we can safely append paths
   mattermostUrl: required('MATTERMOST_URL').replace(/\/+$/, ''),
   botToken: required('MATTERMOST_BOT_TOKEN'),
+  // Optional: where the SQLite file lives
+  databasePath: (process.env.DATABASE_PATH ?? '').trim() || './data/app.db',
 };
