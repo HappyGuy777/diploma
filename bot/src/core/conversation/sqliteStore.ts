@@ -37,6 +37,10 @@ export class SqliteConversationStore implements ConversationStore {
     if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
     this.db = new DatabaseSync(path);
 
+    // Wait up to 5s instead of failing at once when the file is busy;
+    // WAL mode lets reads and writes overlap
+    this.db.exec('PRAGMA busy_timeout = 5000; PRAGMA journal_mode = WAL;');
+
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
