@@ -24,7 +24,7 @@ export class MattermostClient {
   private async api<T>(path: string, init: { method?: string; body?: string } = {}): Promise<T> {
     const res = await fetch(`${this.baseUrl}/api/v4${path}`, {
       method: init.method ?? 'GET',
-      body: init.body,
+      ...(init.body !== undefined ? { body: init.body } : {}),
       headers: {
         Authorization: `Bearer ${this.token}`,
         'Content-Type': 'application/json',
